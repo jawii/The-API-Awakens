@@ -14,20 +14,40 @@ class ViewController: UIViewController {
     @IBOutlet weak var vehiclesButton: UIButton!
     @IBOutlet weak var starshipsButton: UIButton!
     
+    // Setup the status bar white
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
         charactersButton.alignImageAndTitleVertically()
         vehiclesButton.alignImageAndTitleVertically()
         starshipsButton.alignImageAndTitleVertically()
-        self.navigationController?.isNavigationBarHidden = true
+
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = UIColor.white
         
         
     }
     
-    @IBAction func changeToEntityController(_ sender: Any) {
-        
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let sender = sender as? UIButton {
+            print(sender.tag)
+        }
+    }
+    
+    @IBAction func changeToEntityController(_ sender: UIButton) {
+        performSegue(withIdentifier: "showEntity", sender: sender)
     }
     
 

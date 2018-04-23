@@ -10,26 +10,23 @@ import UIKit
 
 class EntityViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
 
-    /*
-    // MARK: - Navigation
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.black
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+        self.navigationController?.navigationBar.isOpaque = true
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        self.navigationController?.navigationItem.title = "Character"
+        
+        self.view.backgroundColor = UIColor.black
+        
+        
     }
-    */
 
 }
