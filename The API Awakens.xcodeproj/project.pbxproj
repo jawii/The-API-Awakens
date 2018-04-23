@@ -14,6 +14,8 @@
 		3169BB0D208DAC8100126B19 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3169BB0B208DAC8100126B19 /* LaunchScreen.storyboard */; };
 		3169BB18208DAC8100126B19 /* The_API_AwakensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3169BB17208DAC8100126B19 /* The_API_AwakensTests.swift */; };
 		3169BB23208DAC8100126B19 /* The_API_AwakensUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3169BB22208DAC8100126B19 /* The_API_AwakensUITests.swift */; };
+		31C93379208E1DA900723BEE /* EntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C93378208E1DA900723BEE /* EntityViewController.swift */; };
+		31C9337B208E436300723BEE /* ButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C9337A208E436300723BEE /* ButtonExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		3169BB1E208DAC8100126B19 /* The API AwakensUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "The API AwakensUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3169BB22208DAC8100126B19 /* The_API_AwakensUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_API_AwakensUITests.swift; sourceTree = "<group>"; };
 		3169BB24208DAC8100126B19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		31C93378208E1DA900723BEE /* EntityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewController.swift; sourceTree = "<group>"; };
+		31C9337A208E436300723BEE /* ButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,9 +101,10 @@
 		3169BB01208DAC7F00126B19 /* The API Awakens */ = {
 			isa = PBXGroup;
 			children = (
+				31C93377208E1D8200723BEE /* ViewControllers */,
 				3169BB02208DAC7F00126B19 /* AppDelegate.swift */,
-				3169BB04208DAC7F00126B19 /* ViewController.swift */,
 				3169BB06208DAC7F00126B19 /* Main.storyboard */,
+				31C9337C208E437D00723BEE /* Extensions */,
 				3169BB09208DAC8100126B19 /* Assets.xcassets */,
 				3169BB0B208DAC8100126B19 /* LaunchScreen.storyboard */,
 				3169BB0E208DAC8100126B19 /* Info.plist */,
@@ -123,6 +128,23 @@
 				3169BB24208DAC8100126B19 /* Info.plist */,
 			);
 			path = "The API AwakensUITests";
+			sourceTree = "<group>";
+		};
+		31C93377208E1D8200723BEE /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				3169BB04208DAC7F00126B19 /* ViewController.swift */,
+				31C93378208E1DA900723BEE /* EntityViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		31C9337C208E437D00723BEE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				31C9337A208E436300723BEE /* ButtonExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,7 +279,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3169BB05208DAC7F00126B19 /* ViewController.swift in Sources */,
+				31C9337B208E436300723BEE /* ButtonExtension.swift in Sources */,
 				3169BB03208DAC7F00126B19 /* AppDelegate.swift in Sources */,
+				31C93379208E1DA900723BEE /* EntityViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
