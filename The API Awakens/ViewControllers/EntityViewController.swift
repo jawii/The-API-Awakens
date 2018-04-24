@@ -9,30 +9,42 @@
 import UIKit
 
 class EntityViewController: UIViewController {
+    
+    // MARK: - Outlets
+    
+    @IBOutlet weak var entityName: UILabel!
+    
+    
+    
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
     }
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.isNavigationBarHidden = true
-//    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.black
+        setupNavBar()
         
-
+        configureViewToMatchEntity()
+    }
+    
+   
+    
+    
+    
+    
+    
+    
+    // MARK: - Configure view
+    func setupNavBar() {
         self.navigationController?.navigationBar.barStyle = UIBarStyle.black
         self.navigationController?.navigationBar.tintColor = UIColor.black
         self.navigationController?.navigationBar.isTranslucent = false
-        //self.navigationController?.navigationBar.isOpaque = true
-
-        //self.navigationController?.navigationBar.topItem?.title = "Character"
-        self.title = "Character"
-        self.view.backgroundColor = UIColor.black
-        
-//        self.navigationController?.navigationBar.topItem?.prompt = "Test"
-        
-        
+        self.title = "Characters"
+    }
+    
+    func configureViewToMatchEntity() {
         
     }
 
