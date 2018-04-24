@@ -10,12 +10,13 @@ import UIKit
 
 class EntityViewController: UIViewController {
     
-    // MARK: - Outlets
+    // MARK: - Outletts
     
     @IBOutlet weak var entityName: UILabel!
     
     
     
+    let client = SwapiClient()
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
@@ -25,16 +26,18 @@ class EntityViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
         setupNavBar()
-        
         configureViewToMatchEntity()
+        
+        
+        // test the entity
+        client.getEntities { entity, error in
+            if let entity = entity {
+                print(entity)
+            }
+            print(error)
+        }
+        
     }
-    
-   
-    
-    
-    
-    
-    
     
     // MARK: - Configure view
     func setupNavBar() {

@@ -12,8 +12,8 @@ import Foundation
 
 struct Character {
     let name: String
-    let birthDay: String
-    let home: String
+    let birthYear: String
+    let homeWorld: String
     let height: Int
     let eyeColor: String
     let hairColor: String
@@ -24,26 +24,27 @@ extension Character {
     
     struct Key {
         static let name = "name"
-        static let birthday = "birth_year"
-        static let home = "homeworld"
+        static let birthYear = "birth_year"
+        static let homeWorld = "homeworld"
         static let eyeColor = "eye_color"
         static let hairColor = "hair_color"
         static let height = "height"
     }
     
-    init?(json: [String: Any]) {
+    init?(json: [String: AnyObject]) {
         
-        guard let height = json[Key.name] as? Int,
+        print("Character initializing")
+        guard let height = json[Key.height] as? Int,
         let name = json[Key.name] as? String,
-        let birthday = json[Key.birthday] as? String,
-        let home = json[Key.home] as? String,
+        let birthYear = json[Key.birthYear] as? String,
+        let homeWorld = json[Key.homeWorld] as? String,
         let eyeColor = json[Key.eyeColor] as? String,
         let hairColor = json[Key.hairColor] as? String else  { return nil }
         
         self.height = height
         self.name = name
-        self.birthDay = birthday
-        self.home = home
+        self.birthYear = birthYear
+        self.homeWorld = homeWorld
         self.eyeColor = eyeColor
         self.hairColor = hairColor
         

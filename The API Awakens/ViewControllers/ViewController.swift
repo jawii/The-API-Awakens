@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var vehiclesButton: UIButton!
     @IBOutlet weak var starshipsButton: UIButton!
     
+    
     // Setup the status bar white
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent

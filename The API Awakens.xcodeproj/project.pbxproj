@@ -17,6 +17,9 @@
 		31C93379208E1DA900723BEE /* EntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C93378208E1DA900723BEE /* EntityViewController.swift */; };
 		31C9337B208E436300723BEE /* ButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C9337A208E436300723BEE /* ButtonExtension.swift */; };
 		31C93382208F6D8900723BEE /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C93381208F6D8900723BEE /* Entity.swift */; };
+		31C93385208FB0AA00723BEE /* SwapiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C93384208FB0AA00723BEE /* SwapiError.swift */; };
+		31C93387208FB0D600723BEE /* SwapiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C93386208FB0D600723BEE /* SwapiClient.swift */; };
+		31C93389208FB0E700723BEE /* JSONDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C93388208FB0E700723BEE /* JSONDownloader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,9 @@
 		31C93378208E1DA900723BEE /* EntityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewController.swift; sourceTree = "<group>"; };
 		31C9337A208E436300723BEE /* ButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtension.swift; sourceTree = "<group>"; };
 		31C93381208F6D8900723BEE /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		31C93384208FB0AA00723BEE /* SwapiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapiError.swift; sourceTree = "<group>"; };
+		31C93386208FB0D600723BEE /* SwapiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapiClient.swift; sourceTree = "<group>"; };
+		31C93388208FB0E700723BEE /* JSONDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDownloader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +169,9 @@
 		31C93383208F9F4000723BEE /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				31C93384208FB0AA00723BEE /* SwapiError.swift */,
+				31C93386208FB0D600723BEE /* SwapiClient.swift */,
+				31C93388208FB0E700723BEE /* JSONDownloader.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -298,11 +307,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31C93389208FB0E700723BEE /* JSONDownloader.swift in Sources */,
 				3169BB05208DAC7F00126B19 /* ViewController.swift in Sources */,
 				31C93382208F6D8900723BEE /* Entity.swift in Sources */,
 				31C9337B208E436300723BEE /* ButtonExtension.swift in Sources */,
 				3169BB03208DAC7F00126B19 /* AppDelegate.swift in Sources */,
+				31C93387208FB0D600723BEE /* SwapiClient.swift in Sources */,
 				31C93379208E1DA900723BEE /* EntityViewController.swift in Sources */,
+				31C93385208FB0AA00723BEE /* SwapiError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
