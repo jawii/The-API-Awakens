@@ -30,7 +30,7 @@ class EntityViewController: UIViewController {
         
         
         // test the entity
-        client.getEntities { entity, error in
+        client.getEntityCollection(for: .people) { entity, error in
             if let entity = entity {
                 print(entity)
             }

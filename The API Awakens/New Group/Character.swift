@@ -14,7 +14,7 @@ struct Character {
     let name: String
     let birthYear: String
     let homeWorld: String
-    let height: Int
+    let height: String
     let eyeColor: String
     let hairColor: String
 }
@@ -33,8 +33,7 @@ extension Character {
     
     init?(json: [String: AnyObject]) {
         
-        print("Character initializing")
-        guard let height = json[Key.height] as? Int,
+        guard let height = json[Key.height] as? String,
         let name = json[Key.name] as? String,
         let birthYear = json[Key.birthYear] as? String,
         let homeWorld = json[Key.homeWorld] as? String,
@@ -47,7 +46,5 @@ extension Character {
         self.homeWorld = homeWorld
         self.eyeColor = eyeColor
         self.hairColor = hairColor
-        
-        
     }
 }
