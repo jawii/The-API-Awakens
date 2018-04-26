@@ -19,11 +19,8 @@ class SwapiClient {
     // Init downloader with default configuration
     let downloader = JSONDownloader()
     
-    typealias EntityCollectionHandler = (SwapiError?) -> Void
-    typealias FetchPageDataHandler = (SwapiError?) -> Void
-    
-    
-    func getEntities(for entityCollection: EntityCollection, completionHandler completion: @escaping EntityCollectionHandler){
+
+    func getEntities(for entityCollection: EntityCollection, completionHandler completion: @escaping (SwapiError?) -> Void){
         
         
         guard let url = URL(string: entityCollection.type.rawValue, relativeTo: baseUrl) else {
@@ -44,8 +41,11 @@ class SwapiClient {
                 if entityCollection.nextPageUrl != nil {
                     let newPage = entityCollection.nextPageUrl
                     self.fetchThePagesData(for: entityCollection, pageUrl: newPage!) { error in
-                        // FIXME: - Error handling
-                        //print(error as Any)
+                        
+                        if let error = error{
+                            print("\(error)")
+                        }
+                        
                     }
                 }
             }
@@ -54,15 +54,15 @@ class SwapiClient {
     }
 
 
-    func fetchThePagesData(for entities: EntityCollection, pageUrl: String, completionHandler completion: @escaping FetchPageDataHandler){
+    func fetchThePagesData(for entities: EntityCollection, pageUrl: String, completionHandler completion: @escaping (SwapiError?) -> Void){
         
-        
-        var lastPage = false
+        var lastPageReached = false
     
         guard let url = URL(string: pageUrl) else {
             completion(.invalidUrl)
             return
         }
+        print("fetching data for \(pageUrl)")
         let request = URLRequest(url: url)
         let task = downloader.jsonTask(with: request) { json, error in
             
@@ -75,16 +75,18 @@ class SwapiClient {
                 entities.addEntities(array: json)
                 completion(nil)
                 
-                if entities.nextPageUrl != nil && !lastPage{
-                    let newPage = entities.nextPageUrl
-                    self.fetchThePagesData(for: entities, pageUrl: newPage!) { error in }
-                    
-                    if entities.nextPageUrl == nil {
-                        lastPage = true
+                let newPage = entities.nextPageUrl
+                
+                if newPage != nil{
+                    //print("New page \(newPage!)")
+                    self.fetchThePagesData(for: entities, pageUrl: newPage!) { error in
+                        
+                        if let error = error{
+                            print("\(error)")
+                        }
+                        
                     }
                 }
-                
-                
             }
         }
         task.resume()

@@ -389,6 +389,8 @@
                     <connections>
                         <outlet property="entityName" destination="SX8-4T-xr8" id="tgl-2P-XcX"/>
                         <outlet property="entityPicker" destination="b3u-QQ-ovO" id="uhC-57-zjb"/>
+                        <outlet property="largestEntityLabel" destination="40g-m6-BOQ" id="ZZl-XF-4Qo"/>
+                        <outlet property="smallestEntityLabel" destination="dUf-LP-RrS" id="9aI-6F-miu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qcc-hr-9V7" userLabel="First Responder" sceneMemberID="firstResponder"/>

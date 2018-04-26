@@ -14,6 +14,8 @@ class EntityViewController: UIViewController {
     
     @IBOutlet weak var entityName: UILabel!
     @IBOutlet weak var entityPicker: UIPickerView!
+    @IBOutlet weak var smallestEntityLabel: UILabel!
+    @IBOutlet weak var largestEntityLabel: UILabel!
     
     
     // Variable for selected entity
@@ -35,14 +37,13 @@ class EntityViewController: UIViewController {
         entityPicker.dataSource = entityCollection
         entityCollection.pickerView = entityPicker
     
-        
-        // test the entity
+        // Get entities
         client.getEntities(for: entityCollection) { error in
-            // FIXME: - Error handling
-            //print("\(String(describing: error))")
-            //print(self.entityCollection.entityList.count)
+            
+            if let error = error{
+                print("\(error)")
+            }
         }
-        
         
         
     }
@@ -54,17 +55,6 @@ class EntityViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         self.title = "Characters"
     }
-    
-    // MARK: - PickerView Extension
-    
-//    func createPickerView() {
-//        let pickerView = UIPickerView()
-//        pickerView.delegate = self
-//        pickerViewTextField.inputView = pickerView
-//    }
-    
-    
-
 }
 
 
@@ -73,7 +63,6 @@ extension EntityViewController: UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let rowName = entityCollection.entityList[row].name
-        //print(rowName)
         return rowName
     }
     
