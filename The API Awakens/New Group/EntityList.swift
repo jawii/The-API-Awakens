@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 enum EntityList: String {
@@ -22,11 +23,18 @@ struct Entity {
 }
 
 
-class EntityCollection {
-    // EntityType
-    var entityList: [Entity] = []
+class EntityCollection: NSObject{
+    
+    var entityList: [Entity] = []  {
+        didSet {
+            pickerView?.reloadAllComponents()
+            print(entityList.count)
+            
+        }
+    }
     var type: EntityList
     var nextPageUrl: String? = nil
+    var pickerView: UIPickerView?
     
     init(type: EntityList) {
         self.type = type
@@ -36,7 +44,6 @@ class EntityCollection {
         
         for item in array {
             if item.key == "next" {
-
                 guard let nextPage = item.value as? String else {
                     nextPageUrl = nil
                     return
@@ -55,6 +62,22 @@ class EntityCollection {
             }
         }
     }
+}
+
+
+// MARK: - PickerViewDataSource Extension
+
+extension EntityCollection: UIPickerViewDataSource {
+
+     func numberOfComponents(in pickerView: UIPickerView) -> Int {
+     return 1
+     }
+     
+     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+     return entityList.count
+    }
+    
+    
 }
 
 
