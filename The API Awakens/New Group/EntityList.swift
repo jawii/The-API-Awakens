@@ -22,34 +22,38 @@ struct Entity {
 }
 
 
-struct EntityCollection {
+class EntityCollection {
     // EntityType
-    var entityList: [Entity]
-    var pagesEnded: Bool = false
+    var entityList: [Entity] = []
+    var type: EntityList
+    var nextPageUrl: String? = nil
     
-    init?(array: Dictionary<String, AnyObject>) {
-        
-        var entityList: [Entity] = []
+    init(type: EntityList) {
+        self.type = type
+    }
+    
+    func addEntities(array: Dictionary<String, AnyObject>) {
         
         for item in array {
             if item.key == "next" {
-                guard let value = item.value as? String else { return nil }
-                    if value == "null" {
-                        self.pagesEnded = true
-                    }
+
+                guard let nextPage = item.value as? String else {
+                    nextPageUrl = nil
+                    return
+                }
+                nextPageUrl = nextPage
             }
             else if item.key == "results" {
                 if let entities = item.value as? [[String: AnyObject]] {
                     for entity in entities {
-                        guard let entityName = entity["name"] as? String , let entityUrl = entity["url"]  as? String else { return nil }
+                        guard let entityName = entity["name"] as? String , let entityUrl = entity["url"]  as? String else { return }
                         let newEntity = Entity(name: entityName, url: entityUrl)
-                        entityList.append(newEntity)
+                        self.entityList.append(newEntity)
                     }
                     
                 }
             }
         }
-        self.entityList = entityList
     }
 }
 

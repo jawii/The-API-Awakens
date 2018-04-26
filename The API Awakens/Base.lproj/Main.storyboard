@@ -382,6 +382,7 @@
                     </view>
                     <connections>
                         <outlet property="entityName" destination="SX8-4T-xr8" id="tgl-2P-XcX"/>
+                        <outlet property="picker" destination="kSb-Ag-pzq" id="CqZ-8m-ivU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qcc-hr-9V7" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -43,7 +43,7 @@ class ViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let sender = sender as? UIButton {
-            print(sender.tag)
+            //print(sender.tag)
         }
     }
     

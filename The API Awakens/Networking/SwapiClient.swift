@@ -20,72 +20,67 @@ class SwapiClient {
     let downloader = JSONDownloader()
     
     typealias EntityCollectionHandler = (EntityCollection?, SwapiError?) -> Void
+    typealias FetchPageDataHandler = (SwapiError?) -> Void
+    
     
     func getEntityCollection(for entities: EntityList, completionHandler completion: @escaping EntityCollectionHandler){
         
-        // Check that url is correct
+        
+        let entityCollection = EntityCollection(type: entities)
+        
         guard let url = URL(string: entities.rawValue, relativeTo: baseUrl) else {
             completion(nil, .invalidUrl)
             return
         }
-        
         let request = URLRequest(url: url)
-    
         let task = downloader.jsonTask(with: request) { json, error in
             
             // Go back to main thread
             DispatchQueue.main.async {
                 guard let json = json else {
-                    completion(nil, error)
-                    return
-                }
-                guard let entityList = EntityCollection(array: json) else {
                     completion(nil, .jsonParsingFailure)
                     return
                 }
-                
-                completion(entityList, nil)
-            }
-        }
-        
-        task.resume()
-        
-    }
-    
-    typealias PageCompletionHandler = (EntityCollection?, SwapiError?) -> Void
-    
-    
-    /*
-    func findEntitiesFrom(pageUrl: String, completionHandler completion: @escaping EntityCollectionHandler) {
-        
-        guard let url = URL(string: pageUrl) else {
-            completion(nil, .invalidUrl)
-            return
-        }
-        
-        let request = URLRequest(url: url)
-        
-        let task = downloader.jsonTask(with: request) { json, error in
-            
-            DispatchQueue.main.async {
-                guard let json = json else {
-                    completion(nil, error)
-                    return
+                entityCollection.addEntities(array: json)
+                completion(entityCollection, nil)
+                if entityCollection.nextPageUrl != nil {
+                    let newPage = entityCollection.nextPageUrl
+                    self.fetchThePageData(for: entityCollection, pageUrl: newPage!) { error in
+                        print(error)
+                    }
                 }
             }
         }
         task.resume()
-        
-        
     }
-     */
+
+
+    func fetchThePageData(for entities: EntityCollection, pageUrl: String, completionHandler completion: @escaping FetchPageDataHandler){
+    
+        guard let url = URL(string: pageUrl) else {
+            completion(.invalidUrl)
+            return
+        }
+        let request = URLRequest(url: url)
+        let task = downloader.jsonTask(with: request) { json, error in
+            
+            // Go back to main thread
+            DispatchQueue.main.async {
+                guard let json = json else {
+                    completion(.jsonParsingFailure)
+                    return
+                }
+                entities.addEntities(array: json)
+                completion(nil)
+                if entities.nextPageUrl != nil {
+                    let newPage = entities.nextPageUrl
+                    self.fetchThePageData(for: entities, pageUrl: newPage!) { error in }
+                }
+            }
+        }
+        task.resume()
+    }
 }
-
-
-
-
-
-
 
 
 

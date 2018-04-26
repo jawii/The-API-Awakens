@@ -13,6 +13,8 @@ class EntityViewController: UIViewController {
     // MARK: - Outletts
     
     @IBOutlet weak var entityName: UILabel!
+    @IBOutlet weak var picker: UIPickerView!
+    
     
     
     
@@ -30,9 +32,9 @@ class EntityViewController: UIViewController {
         
         
         // test the entity
-        client.getEntityCollection(for: .people) { entity, error in
-            if let entity = entity {
-                print(entity)
+        client.getEntityCollection(for: .people) { entityCollection, error in
+            if let entityCollection = entityCollection {
+                print(entityCollection.entityList.count)
             }
             print(error)
         }
