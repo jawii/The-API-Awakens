@@ -24,24 +24,30 @@ struct Entity {
 }
 
 
+protocol EntityCollectionDelegate: class {
+    func didUpdatedEntitylist()
+}
+
 class EntityCollection: NSObject{
     
-    var entityList: [Entity] = []  {
-        didSet {
-                //print(entityList.count)
-        }
-    }
-
+    weak var delegate: EntityCollectionDelegate?
+    
+    var entityList: [Entity] = []
+    
     var type: EntityList
     var nextPageUrl: String? = nil
     var pickerView: UIPickerView?
     
     var smallestEntity: Entity? {
         didSet {
-            print("Smallest: \(smallestEntity?.name)")
+            delegate?.didUpdatedEntitylist()
         }
     }
-    var highestEntity: Entity?
+    var highestEntity: Entity? {
+        didSet {
+            delegate?.didUpdatedEntitylist()
+        }
+    }
     
     init(type: EntityList) {
         self.type = type
@@ -97,7 +103,6 @@ class EntityCollection: NSObject{
     func smallestAndHighestCheck(for entity: Entity) {
         
         // BANG BANG
-        
         let newSize = entity.size!
         
         if smallestEntity == nil {
@@ -131,9 +136,9 @@ extension EntityCollection: UIPickerViewDataSource {
      func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
      return entityList.count
     }
-    
-    
 }
+
+
 
 
 

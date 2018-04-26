@@ -55,8 +55,6 @@ class SwapiClient {
 
 
     func fetchThePagesData(for entities: EntityCollection, pageUrl: String, completionHandler completion: @escaping (SwapiError?) -> Void){
-        
-        var lastPageReached = false
     
         guard let url = URL(string: pageUrl) else {
             completion(.invalidUrl)

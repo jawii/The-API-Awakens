@@ -42,8 +42,20 @@ class ViewController: UIViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        var entityType: EntityList?
         if let sender = sender as? UIButton {
-            //print(sender.tag)
+            
+            switch sender.tag {
+            case 0: entityType = .people
+            case 1: entityType = .vehicles
+            case 2: entityType = .ships
+            default: return
+            }
+        }
+        if let entityType = entityType {
+            let controller = segue.destination as? EntityViewController
+            controller?.entityCollection = EntityCollection(type: entityType)
         }
     }
     
