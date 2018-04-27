@@ -24,7 +24,8 @@ class Character: EntityInfo {
     let name: String
     let birthYear: String
     let homeWorld: String
-    let height: String
+    let heightString: String
+    let height: Int?
     let eyeColor: String
     let hairColor: String
     var homeWorldName: String? = nil {
@@ -32,6 +33,8 @@ class Character: EntityInfo {
             delegate?.didSetHomeWorldName(character: self)
         }
     }
+    let starshipsUrls: [String]
+    let vehiclesUrls: [String]
     
     required init?(json: [String: AnyObject]) {
         
@@ -40,14 +43,27 @@ class Character: EntityInfo {
             let birthYear = json[Key.birthYear] as? String,
             let homeWorld = json[Key.homeWorld] as? String,
             let eyeColor = json[Key.eyeColor] as? String,
+            let vehicles = json[Key.vehicles] as? [String],
+            let starShips = json[Key.starships] as? [String],
             let hairColor = json[Key.hairColor] as? String else  { return nil }
         
-        self.height = height
+        
+        
+        if let height = Int(height) {
+            self.height = height
+            self.heightString = String(height) + "m"
+        } else {
+            self.heightString = height
+            self.height = nil
+        }
+        
         self.name = name
         self.birthYear = birthYear
         self.homeWorld = homeWorld
         self.eyeColor = eyeColor
         self.hairColor = hairColor
+        self.vehiclesUrls = vehicles
+        self.starshipsUrls = starShips
     }
 }
 
@@ -61,5 +77,7 @@ extension Character {
         static let eyeColor = "eye_color"
         static let hairColor = "hair_color"
         static let height = "height"
+        static let vehicles = "vehicles"
+        static let starships = "starships"
     }
 }

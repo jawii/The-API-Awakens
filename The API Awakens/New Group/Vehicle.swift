@@ -15,7 +15,8 @@ class Vehicle: EntityInfo {
     let name: String
     let manufacturer: String
     let cost: String
-    let length: String
+    let lengthString: String
+    let length: Int?
     let vehicleClass: String
     let crewNumber: String
     
@@ -40,7 +41,15 @@ class Vehicle: EntityInfo {
         self.name = name
         self.manufacturer = manufacturer
         self.cost = cost
-        self.length = length
+        
+        if let length = Int(length) {
+            self.length = length
+            self.lengthString = String(length) + "m"
+        } else {
+            self.lengthString = length
+            self.length = nil
+        }
+        
         self.vehicleClass = vehicleClass.capitalized
         self.crewNumber = crewNumber
     }

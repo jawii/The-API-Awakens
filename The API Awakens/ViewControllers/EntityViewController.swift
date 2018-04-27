@@ -70,9 +70,9 @@ class EntityViewController: UIViewController {
         
         // Get the entity list
         client.getEntities(for: entityCollection) { error in
-            
+            if let error = error {
             print("\(error)")
-
+            }
         }
         
     }
@@ -122,7 +122,7 @@ class EntityViewController: UIViewController {
         if let entity = entity as? Character {
             infoLabel1Value.text = entity.birthYear
             infoLabel2Value.text = entity.homeWorldName
-            infoLabel3Value.text = entity.height
+            infoLabel3Value.text = entity.heightString
             infoLabel4Value.text = entity.eyeColor
             infoLabel5Value.text = entity.hairColor
         }
@@ -130,7 +130,7 @@ class EntityViewController: UIViewController {
         if let entity = entity as? Vehicle {
             infoLabel1Value.text = entity.manufacturer
             infoLabel2Value.text = entity.cost
-            infoLabel3Value.text = entity.length
+            infoLabel3Value.text = entity.lengthString
             infoLabel4Value.text = entity.vehicleClass
             infoLabel5Value.text = entity.crewNumber
         }
@@ -162,19 +162,14 @@ extension EntityViewController: UIPickerViewDelegate {
             if let entity = entity as? Character {
                 entity.delegate = self
             }
-            
-            
         }
     }
-
-
 }
 
 extension EntityViewController: EntityCollectionDelegate {
-    func didUpdatedEntitylist() {
+    func didUpdatedSmallestAndLargestLabel() {
         smallestEntityLabel.text = entityCollection!.smallestEntity?.name
         largestEntityLabel.text = entityCollection!.highestEntity?.name
-        entityPicker.selectRow(0, inComponent: 0, animated: false)
     }
 }
 
@@ -183,7 +178,6 @@ extension EntityViewController: HomeWorldNameDelegate {
     func didSetHomeWorldName(character: Character) {
         infoLabel2Value.text = character.homeWorldName
     }
-    
     
 }
 

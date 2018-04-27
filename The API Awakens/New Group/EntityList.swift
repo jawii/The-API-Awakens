@@ -25,7 +25,7 @@ struct Entity {
 
 
 protocol EntityCollectionDelegate: class {
-    func didUpdatedEntitylist()
+    func didUpdatedSmallestAndLargestLabel()
 }
 
 class EntityCollection: NSObject{
@@ -40,12 +40,12 @@ class EntityCollection: NSObject{
     
     var smallestEntity: Entity? {
         didSet {
-            delegate?.didUpdatedEntitylist()
+            delegate?.didUpdatedSmallestAndLargestLabel()
         }
     }
     var highestEntity: Entity? {
         didSet {
-            delegate?.didUpdatedEntitylist()
+            delegate?.didUpdatedSmallestAndLargestLabel()
         }
     }
     
@@ -102,7 +102,6 @@ class EntityCollection: NSObject{
     
     func smallestAndHighestCheck(for entity: Entity) {
         
-        // BANG BANG
         let newSize = entity.size!
         
         if smallestEntity == nil {
