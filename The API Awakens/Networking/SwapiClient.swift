@@ -89,6 +89,74 @@ class SwapiClient {
         }
         task.resume()
     }
+    
+    typealias EntityFetcherCompletionHandler = (Character?, SwapiError?) -> Void
+    
+    func fetchEntityData(for type: EntityList, urlString: String, completionHandler completion: @escaping EntityFetcherCompletionHandler) {
+        guard let url = URL(string: urlString) else {
+            completion(nil, .invalidUrl)
+            return
+        }
+        //print("fetching data for \(urlString)")
+        let request = URLRequest(url: url)
+        let task = downloader.jsonTask(with: request) { json, error in
+            
+            // Go back to main thread
+            DispatchQueue.main.async {
+                guard let json = json else {
+                    completion(nil, .jsonParsingFailure)
+                    return
+                }
+                guard let entity = Character(json: json) else {
+                    completion(nil, .jsonConversionFailure)
+                    return
+                }
+                
+                // Fetch the homeWorld name if entity is people
+                if type == .people {
+                    self.fetchHomeWorld(for: entity.homeWorld) {name, error in
+                        
+                        if let error = error {
+                            print("\(error)")
+                        } else {
+                            entity.homeWorldName = name!
+                        }
+                    }
+                    
+                }
+                completion(entity, nil)
+            }
+        }
+        task.resume()
+    }
+    
+    typealias HomeWorldFetcherCompletionHandler = (String?, SwapiError?) -> Void
+    
+    func fetchHomeWorld(for homeWorldString: String, completionHandler completion: @escaping HomeWorldFetcherCompletionHandler) {
+        guard let url = URL(string: homeWorldString) else {
+            completion(nil, .invalidUrl)
+            return
+        }
+        //print("fetching data for \(urlString)")
+        let request = URLRequest(url: url)
+        let task = downloader.jsonTask(with: request) { json, error in
+            
+            // Go back to main thread
+            DispatchQueue.main.async {
+                guard let json = json else {
+                    completion(nil, .jsonParsingFailure)
+                    return
+                }
+                
+                guard let homeWorld = json["name"] as? String else {
+                    completion(nil, .jsonConversionFailure)
+                    return
+                }
+                completion(homeWorld, nil)
+            }
+        }
+        task.resume()
+    }
 }
 
 

@@ -117,8 +117,18 @@ class EntityViewController: UIViewController {
         infoLabel4Value.text = ""
         infoLabel5Value.text = ""
     }
+    
+    func setupLabelValues(for entity: Character) {
+        
+        infoLabel1Value.text = entity.birthYear
+        infoLabel2Value.text = entity.homeWorldName
+        infoLabel3Value.text = entity.height
+        infoLabel4Value.text = entity.eyeColor
+        infoLabel5Value.text = entity.hairColor
+    }
 }
 
+// MARK: - Delegates
 
 extension EntityViewController: UIPickerViewDelegate {
     
@@ -131,7 +141,15 @@ extension EntityViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedEntity = entityCollection!.entityList[row]
         entityName.text = selectedEntity?.name
+        
+        client.fetchEntityData(for: entityCollection!.type, urlString: selectedEntity!.url) {entity, error in
+            
+            guard let entity = entity else { return }
+            self.setupLabelValues(for: entity)
+            entity.delegate = self
+        }
     }
+
 
 }
 
@@ -139,11 +157,18 @@ extension EntityViewController: EntityCollectionDelegate {
     func didUpdatedEntitylist() {
         smallestEntityLabel.text = entityCollection!.smallestEntity?.name
         largestEntityLabel.text = entityCollection!.highestEntity?.name
+        entityPicker.selectRow(0, inComponent: 0, animated: false)
+    }
+}
+
+
+extension EntityViewController: HomeWorldNameDelegate {
+    func didSetHomeWorldName(character: Character) {
+        infoLabel2Value.text = character.homeWorldName
     }
     
     
 }
-
 
 
 
