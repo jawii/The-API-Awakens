@@ -13,7 +13,11 @@ protocol HomeWorldNameDelegate: class {
     func didSetHomeWorldName(character: Character)
 }
 
-class Character {
+class EntityInfo {
+    
+}
+
+class Character: EntityInfo {
     
     weak var delegate: HomeWorldNameDelegate?
     
@@ -26,7 +30,6 @@ class Character {
     var homeWorldName: String? = nil {
         didSet {
             delegate?.didSetHomeWorldName(character: self)
-            //print(homeWorldName)
         }
     }
     

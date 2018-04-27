@@ -71,9 +71,8 @@ class EntityViewController: UIViewController {
         // Get the entity list
         client.getEntities(for: entityCollection) { error in
             
-            if let error = error{
-                print("\(error)")
-            }
+            print("\(error)")
+
         }
         
     }
@@ -118,13 +117,23 @@ class EntityViewController: UIViewController {
         infoLabel5Value.text = ""
     }
     
-    func setupLabelValues(for entity: Character) {
+    func setupLabelValues(for entity: EntityInfo) {
         
-        infoLabel1Value.text = entity.birthYear
-        infoLabel2Value.text = entity.homeWorldName
-        infoLabel3Value.text = entity.height
-        infoLabel4Value.text = entity.eyeColor
-        infoLabel5Value.text = entity.hairColor
+        if let entity = entity as? Character {
+            infoLabel1Value.text = entity.birthYear
+            infoLabel2Value.text = entity.homeWorldName
+            infoLabel3Value.text = entity.height
+            infoLabel4Value.text = entity.eyeColor
+            infoLabel5Value.text = entity.hairColor
+        }
+        
+        if let entity = entity as? Vehicle {
+            infoLabel1Value.text = entity.manufacturer
+            infoLabel2Value.text = entity.cost
+            infoLabel3Value.text = entity.length
+            infoLabel4Value.text = entity.vehicleClass
+            infoLabel5Value.text = entity.crewNumber
+        }
     }
 }
 
@@ -140,13 +149,21 @@ extension EntityViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedEntity = entityCollection!.entityList[row]
-        entityName.text = selectedEntity?.name
+        entityName.text = selectedEntity!.name
         
         client.fetchEntityData(for: entityCollection!.type, urlString: selectedEntity!.url) {entity, error in
             
+            if let error = error{
+                print("\(error)")
+            }
             guard let entity = entity else { return }
             self.setupLabelValues(for: entity)
-            entity.delegate = self
+            
+            if let entity = entity as? Character {
+                entity.delegate = self
+            }
+            
+            
         }
     }
 

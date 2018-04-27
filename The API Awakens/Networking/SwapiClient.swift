@@ -60,7 +60,7 @@ class SwapiClient {
             completion(.invalidUrl)
             return
         }
-        print("fetching data for \(pageUrl)")
+        //print("fetching data for \(pageUrl)")
         let request = URLRequest(url: url)
         let task = downloader.jsonTask(with: request) { json, error in
             
@@ -90,7 +90,7 @@ class SwapiClient {
         task.resume()
     }
     
-    typealias EntityFetcherCompletionHandler = (Character?, SwapiError?) -> Void
+    typealias EntityFetcherCompletionHandler = (EntityInfo?, SwapiError?) -> Void
     
     func fetchEntityData(for type: EntityList, urlString: String, completionHandler completion: @escaping EntityFetcherCompletionHandler) {
         guard let url = URL(string: urlString) else {
@@ -107,13 +107,9 @@ class SwapiClient {
                     completion(nil, .jsonParsingFailure)
                     return
                 }
-                guard let entity = Character(json: json) else {
-                    completion(nil, .jsonConversionFailure)
-                    return
-                }
                 
-                // Fetch the homeWorld name if entity is people
                 if type == .people {
+                    guard let entity = Character(json: json) else { completion(nil, .jsonConversionFailure); return}
                     self.fetchHomeWorld(for: entity.homeWorld) {name, error in
                         
                         if let error = error {
@@ -122,9 +118,17 @@ class SwapiClient {
                             entity.homeWorldName = name!
                         }
                     }
+                    completion(entity, nil)
                     
                 }
-                completion(entity, nil)
+                else {
+                    guard let entity = Vehicle(json: json, entityType: type) else {
+                        completion(nil, .jsonConversionFailure)
+                        return
+                    }
+                    completion(entity, nil)
+                }
+                
             }
         }
         task.resume()
