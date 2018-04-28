@@ -37,6 +37,7 @@ class EntityViewController: UIViewController {
     @IBOutlet weak var sizeUnitEnglish: UIButton!
     @IBOutlet weak var sizeUnitMetric: UIButton!
     
+    @IBOutlet weak var assosVehicleBtn: UIButton!
     
     @IBOutlet weak var smallestEntityLabel: UILabel!
     @IBOutlet weak var largestEntityLabel: UILabel!
@@ -44,6 +45,7 @@ class EntityViewController: UIViewController {
     
     // Variable for selected entity
     var selectedEntity: Entity?
+    var selectedEntityData: EntityInfo?
     let client = SwapiClient()
     var entityCollection: EntityCollection? = nil
     
@@ -78,6 +80,7 @@ class EntityViewController: UIViewController {
     }
     
     // MARK: - Configure view
+    
     func setupNavBar() {
         self.navigationController?.navigationBar.barStyle = UIBarStyle.black
         self.navigationController?.navigationBar.tintColor = UIColor.black
@@ -97,6 +100,7 @@ class EntityViewController: UIViewController {
             infoLabel3Name.text = "Length"
             infoLabel4Name.text = "Class"
             infoLabel5Name.text = "Crew"
+            assosVehicleBtn.isHidden = true
             self.title = "Vehicles"
             
         case .ships:
@@ -105,6 +109,7 @@ class EntityViewController: UIViewController {
             infoLabel3Name.text = "Length"
             infoLabel4Name.text = "Class"
             infoLabel5Name.text = "Crew"
+            assosVehicleBtn.isHidden = true
             self.title = "Ships"
         }
         
@@ -157,10 +162,14 @@ extension EntityViewController: UIPickerViewDelegate {
                 print("\(error)")
             }
             guard let entity = entity else { return }
+            
+            self.selectedEntityData = entity
+            
             self.setupLabelValues(for: entity)
             
             if let entity = entity as? Character {
                 entity.delegate = self
+                self.assosVehicleBtn.setTitle("Associated vehicles and starships (0)", for: .normal)
             }
         }
     }
@@ -174,11 +183,82 @@ extension EntityViewController: EntityCollectionDelegate {
 }
 
 
-extension EntityViewController: HomeWorldNameDelegate {
+extension EntityViewController: CharacterInfoDelegate {
+    func updateVehicleCount(for count: Int) {
+        assosVehicleBtn.setTitle("Associated vehicles and starships (\(count))", for: .normal)
+    }
+    
     func didSetHomeWorldName(character: Character) {
         infoLabel2Value.text = character.homeWorldName
     }
     
+}
+
+
+// MARK: - Vehicles and Starships list
+extension EntityViewController {
+
+    @IBAction func showAssVechicles() {
+        
+        guard let character = selectedEntityData as? Character else { return }
+        
+        var message = ""
+        
+        if character.vehicles.count > 0 {
+            message += "Vehicles\n"
+            for vehicle in character.vehicles {
+                message.append("\(vehicle)\n")
+            }
+            message += "\n\n"
+        }
+        
+        if character.starships.count > 0 {
+            message += "Starships\n"
+            for starship in character.starships {
+                message.append("\(starship)\n")
+            }
+        }
+        
+        let title = "Associated vehicles and starships"
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        
+        self.present(alert, animated: true)
+    }
+
+}
+
+// MARK: - Conversion to English and Metric system
+
+extension EntityViewController {
+    @IBAction func sizeConverter(_ sender: UIButton) {
+        
+        if selectedEntityData == nil { return }
+        
+        var selectedEntity: EntityInfo
+        
+        switch entityCollection!.type {
+        case .people:
+            selectedEntity = selectedEntityData as! Character
+        case .ships, .vehicles:
+            selectedEntity = selectedEntityData as! Vehicle
+        }
+        
+        
+        if(sender.tag == 1 ){
+            //metric selected
+            sizeUnitEnglish.isSelected = false
+            sender.isSelected = true
+            
+        } else {
+            //english selected
+            sizeUnitMetric.isSelected = false
+            sender.isSelected = true
+        }
+        
+    }
 }
 
 

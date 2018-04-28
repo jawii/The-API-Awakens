@@ -9,23 +9,24 @@
 import Foundation
 
 
-protocol HomeWorldNameDelegate: class {
+protocol CharacterInfoDelegate: class {
     func didSetHomeWorldName(character: Character)
+    func updateVehicleCount(for count: Int)
 }
 
 class EntityInfo {
-    
+    var size: Double = 0
 }
 
 class Character: EntityInfo {
     
-    weak var delegate: HomeWorldNameDelegate?
+    weak var delegate: CharacterInfoDelegate?
     
     let name: String
     let birthYear: String
     let homeWorld: String
     let heightString: String
-    let height: Int?
+    let height: Double?
     let eyeColor: String
     let hairColor: String
     var homeWorldName: String? = nil {
@@ -35,6 +36,20 @@ class Character: EntityInfo {
     }
     let starshipsUrls: [String]
     let vehiclesUrls: [String]
+    var vehicles: [String] = [] {
+        didSet {
+            allVehicleCount += 1
+            delegate?.updateVehicleCount(for: allVehicleCount)
+        }
+    }
+    var starships: [String] = [] {
+        didSet {
+            allVehicleCount += 1
+            delegate?.updateVehicleCount(for: allVehicleCount)
+        }
+    }
+    
+    var allVehicleCount = 0
     
     required init?(json: [String: AnyObject]) {
         
@@ -49,9 +64,9 @@ class Character: EntityInfo {
         
         
         
-        if let height = Int(height) {
+        if let height = Double(height) {
             self.height = height
-            self.heightString = String(height) + "m"
+            self.heightString = String(height) + "cm"
         } else {
             self.heightString = height
             self.height = nil

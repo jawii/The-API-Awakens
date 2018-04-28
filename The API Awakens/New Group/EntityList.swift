@@ -83,7 +83,7 @@ class EntityCollection: NSObject{
                         }
                         
                         self.entityList.append(newEntity)
-                        arrangeEntities()
+                        //arrangeEntities()
                         self.pickerView?.reloadAllComponents()
                     }
                 }

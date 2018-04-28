@@ -109,15 +109,38 @@ class SwapiClient {
                 }
                 
                 if type == .people {
+                    
+                    // Try to make the character
                     guard let entity = Character(json: json) else { completion(nil, .jsonConversionFailure); return}
-                    self.fetchHomeWorld(for: entity.homeWorld) {name, error in
-                        
+                    
+                    self.fetchName(for: entity.homeWorld) {name, error in
                         if let error = error {
                             print("\(error)")
                         } else {
                             entity.homeWorldName = name!
                         }
                     }
+                    
+                    for vehicleUrl in entity.vehiclesUrls {
+                            self.fetchName(for: vehicleUrl){name, error in
+                            if let error = error {
+                                print("\(error)")
+                            }
+                            guard let name = name else { return }
+                            entity.vehicles.append(name)
+                        }
+                    }
+                    
+                    for shipUrl in entity.starshipsUrls {
+                        self.fetchName(for: shipUrl){name, error in
+                            if let error = error {
+                                print("\(error)")
+                            }
+                            guard let name = name else { return }
+                            entity.starships.append(name)
+                        }
+                    }
+                
                     completion(entity, nil)
                     
                 }
@@ -134,10 +157,10 @@ class SwapiClient {
         task.resume()
     }
     
-    typealias HomeWorldFetcherCompletionHandler = (String?, SwapiError?) -> Void
+    typealias NameFetcherCompletionHandler = (String?, SwapiError?) -> Void
     
-    func fetchHomeWorld(for homeWorldString: String, completionHandler completion: @escaping HomeWorldFetcherCompletionHandler) {
-        guard let url = URL(string: homeWorldString) else {
+    func fetchName(for urlString: String, completionHandler completion: @escaping NameFetcherCompletionHandler) {
+        guard let url = URL(string: urlString) else {
             completion(nil, .invalidUrl)
             return
         }
@@ -152,11 +175,11 @@ class SwapiClient {
                     return
                 }
                 
-                guard let homeWorld = json["name"] as? String else {
+                guard let name = json["name"] as? String else {
                     completion(nil, .jsonConversionFailure)
                     return
                 }
-                completion(homeWorld, nil)
+                completion(name, nil)
             }
         }
         task.resume()
