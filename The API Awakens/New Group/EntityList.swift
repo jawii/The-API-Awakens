@@ -28,6 +28,7 @@ protocol EntityCollectionDelegate: class {
     func didUpdatedSmallestAndLargestLabel()
 }
 
+// Class for entity collections
 class EntityCollection: NSObject{
     
     weak var delegate: EntityCollectionDelegate?

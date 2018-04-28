@@ -8,13 +8,14 @@
 
 import Foundation
 
+// Main class for entities
+class EntityInfo {
+    
+}
 
 protocol CharacterInfoDelegate: class {
     func didSetHomeWorldName(character: Character)
     func updateVehicleCount(for count: Int)
-}
-
-class EntityInfo {
 }
 
 class Character: EntityInfo {

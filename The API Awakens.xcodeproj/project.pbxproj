@@ -22,6 +22,7 @@
 		31C93389208FB0E700723BEE /* JSONDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C93388208FB0E700723BEE /* JSONDownloader.swift */; };
 		31C9338D20903FA100723BEE /* EntityList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C9338C20903FA100723BEE /* EntityList.swift */; };
 		31C933AF2093931600723BEE /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C933AE2093931600723BEE /* Vehicle.swift */; };
+		31EA117720947FE900270C22 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA117620947FE900270C22 /* Alert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		31C93388208FB0E700723BEE /* JSONDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDownloader.swift; sourceTree = "<group>"; };
 		31C9338C20903FA100723BEE /* EntityList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityList.swift; sourceTree = "<group>"; };
 		31C933AE2093931600723BEE /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
+		31EA117620947FE900270C22 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				31C9337A208E436300723BEE /* ButtonExtension.swift */,
+				31EA117620947FE900270C22 /* Alert.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				31C9338D20903FA100723BEE /* EntityList.swift in Sources */,
 				31C93387208FB0D600723BEE /* SwapiClient.swift in Sources */,
 				31C93379208E1DA900723BEE /* EntityViewController.swift in Sources */,
+				31EA117720947FE900270C22 /* Alert.swift in Sources */,
 				31C933AF2093931600723BEE /* Vehicle.swift in Sources */,
 				31C93385208FB0AA00723BEE /* SwapiError.swift in Sources */,
 			);

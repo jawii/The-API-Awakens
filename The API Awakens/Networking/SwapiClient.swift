@@ -60,7 +60,6 @@ class SwapiClient {
             completion(.invalidUrl)
             return
         }
-        //print("fetching data for \(pageUrl)")
         let request = URLRequest(url: url)
         let task = downloader.jsonTask(with: request) { json, error in
             
@@ -76,13 +75,10 @@ class SwapiClient {
                 let newPage = entities.nextPageUrl
                 
                 if newPage != nil{
-                    //print("New page \(newPage!)")
                     self.fetchThePagesData(for: entities, pageUrl: newPage!) { error in
-                        
                         if let error = error{
                             print("\(error)")
                         }
-                        
                     }
                 }
             }

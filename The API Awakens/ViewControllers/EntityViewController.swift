@@ -42,27 +42,36 @@ class EntityViewController: UIViewController {
     @IBOutlet weak var smallestEntityLabel: UILabel!
     @IBOutlet weak var largestEntityLabel: UILabel!
     
+    @IBOutlet var exhangeLabelCollection: [UILabel]!
+    @IBOutlet weak var exchangeRateTextField: UITextField!
+    
     
     // Variable for selected entity
     var selectedEntity: Entity?
     var selectedEntityData: EntityInfo?
     let client = SwapiClient()
     var entityCollection: EntityCollection? = nil
+    var exchangeRate: Double = 0
     
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = false
+        //exchangeRateTextField.becomeFirstResponder()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
         
+        
         // Get entities
         guard let entityCollection = entityCollection else { fatalError()}
         
         setupNavBar()
         nameTheLabels()
+        // Crash if inital value cannot be converted to double
+        exchangeRate = Double(exchangeRateTextField.text!)!
         
         // Setup PickerViews Datasource
         entityPicker.dataSource = entityCollection
@@ -92,6 +101,11 @@ class EntityViewController: UIViewController {
         case .people:
             valueButtonUSD.isHidden = true
             valueButtonCredits.isHidden = true
+            for label in exhangeLabelCollection {
+                label.isHidden = true
+            }
+            exchangeRateTextField.isHidden = true
+            
             self.title = "Characters"
             
         case .vehicles:
@@ -168,12 +182,14 @@ extension EntityViewController: UIPickerViewDelegate {
             self.sizeUnitEnglish.isSelected = false
             
             self.selectedEntityData = entity
-            
             self.setupLabelValues(for: entity)
             
             if let entity = entity as? Character {
                 entity.delegate = self
-                self.assosVehicleBtn.setTitle("Associated vehicles and starships (0)", for: .normal)
+                self.assosVehicleBtn.setTitle("Show associated vehicles and starships (0)", for: .normal)
+            } else {
+                self.valueButtonUSD.isSelected = true
+                self.valueButtonCredits.isSelected = false
             }
         }
     }
@@ -189,7 +205,7 @@ extension EntityViewController: EntityCollectionDelegate {
 
 extension EntityViewController: CharacterInfoDelegate {
     func updateVehicleCount(for count: Int) {
-        assosVehicleBtn.setTitle("Associated vehicles and starships (\(count))", for: .normal)
+        assosVehicleBtn.setTitle("Show associated vehicles and starships (\(count))", for: .normal)
     }
     
     func didSetHomeWorldName(character: Character) {
@@ -234,7 +250,7 @@ extension EntityViewController {
 
 }
 
-// MARK: - Conversion to English and Metric system
+// MARK: - Conversios
 
 extension EntityViewController {
     @IBAction func sizeConverter(_ sender: UIButton) {
@@ -253,12 +269,19 @@ extension EntityViewController {
                 metricsValue = Int(selectedEntity.height!)
                 britishValue = Int(selectedEntity.height! * 0.3937)
                 metricsSuffix = "cm"
+            } else {
+                return
             }
         case .ships, .vehicles:
             let selectedEntity = selectedEntityData as! Vehicle
-            metricsValue = Int(selectedEntity.length!)
-            britishValue = Int(selectedEntity.length! * 100 * 0.3937)
-            metricsSuffix = "m"
+            
+            if let _ = selectedEntity.length {
+                metricsValue = Int(selectedEntity.length!)
+                britishValue = Int(selectedEntity.length! * 100 * 0.3937)
+                metricsSuffix = "m"
+            } else {
+                return
+            }
         }
         
         
@@ -275,6 +298,75 @@ extension EntityViewController {
             infoLabel3Value.text = String(britishValue) + britishSuffix
          }
         
+    }
+    
+    @IBAction func costConverter(_ sender: UIButton) {
+        
+        var costInUsd: Int = 0
+        var costInCredits: Int = 0
+        
+        switch entityCollection!.type {
+        case .people:
+            return
+        case .ships, .vehicles:
+            let selectedEntity = selectedEntityData as! Vehicle
+            if let price = Double(selectedEntity.cost) {
+                costInUsd = Int(price)
+                costInCredits = Int(price * exchangeRate)
+            } else {
+                return
+            }
+        }
+
+        if(sender.tag == 1 ){
+            //credits selected
+            valueButtonUSD.isSelected = false
+            sender.isSelected = true
+            infoLabel2Value.text = "\(costInCredits)"
+            
+        } else {
+            //USD selected
+            valueButtonCredits.isSelected = false
+            sender.isSelected = true
+            infoLabel2Value.text = "\(costInUsd)"
+        }
+        
+    }
+}
+
+// MARK: - Exchange Rate InputField Delegate
+
+extension EntityViewController: UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        //print("Editing Started")
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        //print("Should end editing")
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //print("Should return")
+        if let rateNumber = Double(textField.text!), rateNumber > 0 {
+            print(textField.text!)
+        } else {
+            Alert.showBasic(title: "Invalid rate", message: "Exchange rate must be a positive number (not even 0)", vc: self)
+            return false
+        }
+        
+        textField.resignFirstResponder()
+        exchangeRate = Double(textField.text!)!
+        
+        //change the rate if credits label is shown
+        if valueButtonCredits.isSelected {
+            if let entity = selectedEntityData as? Vehicle, let price = Double(entity.cost) {
+                infoLabel2Value.text = String(Int(price * exchangeRate))
+            }
+        }
+        return true
     }
 }
 
