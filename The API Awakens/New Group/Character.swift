@@ -15,7 +15,6 @@ protocol CharacterInfoDelegate: class {
 }
 
 class EntityInfo {
-    var size: Double = 0
 }
 
 class Character: EntityInfo {
@@ -51,7 +50,7 @@ class Character: EntityInfo {
     
     var allVehicleCount = 0
     
-    required init?(json: [String: AnyObject]) {
+    init?(json: [String: AnyObject]) {
         
         guard let height = json[Key.height] as? String,
             let name = json[Key.name] as? String,

@@ -163,6 +163,10 @@ extension EntityViewController: UIPickerViewDelegate {
             }
             guard let entity = entity else { return }
             
+            //setup the default size bar
+            self.sizeUnitMetric.isSelected = true
+            self.sizeUnitEnglish.isSelected = false
+            
             self.selectedEntityData = entity
             
             self.setupLabelValues(for: entity)
@@ -235,15 +239,26 @@ extension EntityViewController {
 extension EntityViewController {
     @IBAction func sizeConverter(_ sender: UIButton) {
         
-        if selectedEntityData == nil { return }
+        if selectedEntityData == nil  { return }
         
-        var selectedEntity: EntityInfo
+        var metricsValue: Int = 0
+        var britishValue: Int = 0
+        var metricsSuffix: String = ""
+        let britishSuffix = " inches"
         
         switch entityCollection!.type {
         case .people:
-            selectedEntity = selectedEntityData as! Character
+            let selectedEntity = selectedEntityData as! Character
+            if let _ = selectedEntity.height {
+                metricsValue = Int(selectedEntity.height!)
+                britishValue = Int(selectedEntity.height! * 0.3937)
+                metricsSuffix = "cm"
+            }
         case .ships, .vehicles:
-            selectedEntity = selectedEntityData as! Vehicle
+            let selectedEntity = selectedEntityData as! Vehicle
+            metricsValue = Int(selectedEntity.length!)
+            britishValue = Int(selectedEntity.length! * 100 * 0.3937)
+            metricsSuffix = "m"
         }
         
         
@@ -251,12 +266,14 @@ extension EntityViewController {
             //metric selected
             sizeUnitEnglish.isSelected = false
             sender.isSelected = true
+            infoLabel3Value.text = String(metricsValue) + metricsSuffix
             
         } else {
             //english selected
             sizeUnitMetric.isSelected = false
             sender.isSelected = true
-        }
+            infoLabel3Value.text = String(britishValue) + britishSuffix
+         }
         
     }
 }
