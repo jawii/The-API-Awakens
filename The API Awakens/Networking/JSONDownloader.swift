@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class JSONDownloader {
     let session: URLSession
@@ -26,6 +27,23 @@ class JSONDownloader {
     func jsonTask (with request: URLRequest, completionHandler completion: @escaping JSONTaskCompletionHandler) -> URLSessionDataTask {
         
         let task = session.dataTask(with: request) { data, response, error in
+            
+            if let error = error as? URLError {
+                
+                switch error.code {
+                case .notConnectedToInternet:
+                    if let topController = UIApplication.topViewController() {
+                        Alert.showBasic(title: "Error", message: "The internet connection appears to be offline.", vc: topController )
+                    }
+                case .networkConnectionLost:
+                    if let topController = UIApplication.topViewController() {
+                        Alert.showBasic(title: "Error", message: "Network connection lost.", vc: topController )
+                    }
+                default: print(error.localizedDescription)
+                }
+               
+                return
+            }
             
             // Convert to HTTP Response
             guard let httpResponse = response as? HTTPURLResponse else {
@@ -51,7 +69,6 @@ class JSONDownloader {
                 completion(nil, .responseUnsuccesful)
             }
         }
-        
         return task
     }
 }

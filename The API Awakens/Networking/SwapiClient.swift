@@ -109,6 +109,7 @@ class SwapiClient {
                     // Try to make the character
                     guard let entity = Character(json: json) else { completion(nil, .jsonConversionFailure); return}
                     
+                    // Fetch the homworld name
                     self.fetchName(for: entity.homeWorld) {name, error in
                         if let error = error {
                             print("\(error)")
@@ -116,7 +117,7 @@ class SwapiClient {
                             entity.homeWorldName = name!
                         }
                     }
-                    
+                    // Get the vehicles
                     for vehicleUrl in entity.vehiclesUrls {
                             self.fetchName(for: vehicleUrl){name, error in
                             if let error = error {
@@ -126,7 +127,7 @@ class SwapiClient {
                             entity.vehicles.append(name)
                         }
                     }
-                    
+                    // Get the ships
                     for shipUrl in entity.starshipsUrls {
                         self.fetchName(for: shipUrl){name, error in
                             if let error = error {
