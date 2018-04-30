@@ -8,10 +8,6 @@
 
 import Foundation
 
-// Main class for entities
-class EntityInfo {
-    
-}
 
 protocol CharacterInfoDelegate: class {
     func didSetHomeWorldName(character: Character)

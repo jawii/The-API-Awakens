@@ -48,6 +48,7 @@ class EntityViewController: UIViewController {
     
     // Variable for selected entity
     var selectedEntity: Entity?
+    
     var selectedEntityData: EntityInfo?
     let client = SwapiClient()
     var entityCollection: EntityCollection? = nil
@@ -77,6 +78,7 @@ class EntityViewController: UIViewController {
         entityPicker.dataSource = entityCollection
         entityCollection.pickerView = entityPicker
         entityCollection.delegate = self
+        
     
         
         // Get the entity list
@@ -85,6 +87,7 @@ class EntityViewController: UIViewController {
             print("\(error)")
             }
         }
+        
         
     }
     
@@ -160,7 +163,6 @@ class EntityViewController: UIViewController {
 
 extension EntityViewController: UIPickerViewDelegate {
     
-
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let rowName = entityCollection!.entityList[row].name
         return rowName
@@ -177,7 +179,7 @@ extension EntityViewController: UIPickerViewDelegate {
             }
             guard let entity = entity else { return }
             
-            //setup the default size bar
+            //setup the default size
             self.sizeUnitMetric.isSelected = true
             self.sizeUnitEnglish.isSelected = false
             
@@ -217,7 +219,8 @@ extension EntityViewController: CharacterInfoDelegate {
 
 // MARK: - Vehicles and Starships list
 extension EntityViewController {
-
+    
+    /// Show associated vehicles
     @IBAction func showAssVechicles() {
         
         guard let character = selectedEntityData as? Character else { return }
@@ -250,7 +253,7 @@ extension EntityViewController {
 
 }
 
-// MARK: - Conversios
+// MARK: - Conversions
 
 extension EntityViewController {
     @IBAction func sizeConverter(_ sender: UIButton) {
@@ -339,12 +342,13 @@ extension EntityViewController {
 extension EntityViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        //print("Editing Started")
+        print("Editing Started")
+        //exchangeRateTextField.becomeFirstResponder()
         return true
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        //print("Should end editing")
+        print("Should end editing")
         return true
     }
     

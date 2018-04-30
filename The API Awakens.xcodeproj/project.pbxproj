@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		314800CB2097A02A00CF3D1F /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314800CA2097A02A00CF3D1F /* Entity.swift */; };
 		3169BB03208DAC7F00126B19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3169BB02208DAC7F00126B19 /* AppDelegate.swift */; };
 		3169BB05208DAC7F00126B19 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3169BB04208DAC7F00126B19 /* ViewController.swift */; };
 		3169BB08208DAC7F00126B19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3169BB06208DAC7F00126B19 /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		314800CA2097A02A00CF3D1F /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		3169BAFF208DAC7F00126B19 /* The API Awakens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The API Awakens.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3169BB02208DAC7F00126B19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3169BB04208DAC7F00126B19 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -170,9 +172,10 @@
 		31C93380208F6D6900723BEE /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				314800CA2097A02A00CF3D1F /* Entity.swift */,
 				31C93381208F6D8900723BEE /* Character.swift */,
-				31C9338C20903FA100723BEE /* EntityList.swift */,
 				31C933AE2093931600723BEE /* Vehicle.swift */,
+				31C9338C20903FA100723BEE /* EntityList.swift */,
 			);
 			name = Entities;
 			path = "New Group";
@@ -329,6 +332,7 @@
 				31C93379208E1DA900723BEE /* EntityViewController.swift in Sources */,
 				31EA117720947FE900270C22 /* Alert.swift in Sources */,
 				31EA11792094E21500270C22 /* TopController.swift in Sources */,
+				314800CB2097A02A00CF3D1F /* Entity.swift in Sources */,
 				31C933AF2093931600723BEE /* Vehicle.swift in Sources */,
 				31C93385208FB0AA00723BEE /* SwapiError.swift in Sources */,
 			);

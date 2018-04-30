@@ -19,7 +19,7 @@ class SwapiClient {
     // Init downloader with default configuration
     let downloader = JSONDownloader()
     
-
+    /// Gets entities list for PickerView
     func getEntities(for entityCollection: EntityCollection, completionHandler completion: @escaping (SwapiError?) -> Void){
         
         
@@ -106,7 +106,7 @@ class SwapiClient {
                 
                 if type == .people {
                     
-                    // Try to make the character
+                    // Makeake the character
                     guard let entity = Character(json: json) else { completion(nil, .jsonConversionFailure); return}
                     
                     // Fetch the homworld name
@@ -141,6 +141,7 @@ class SwapiClient {
                     completion(entity, nil)
                     
                 }
+                // Else the type is vehicle
                 else {
                     guard let entity = Vehicle(json: json, entityType: type) else {
                         completion(nil, .jsonConversionFailure)
